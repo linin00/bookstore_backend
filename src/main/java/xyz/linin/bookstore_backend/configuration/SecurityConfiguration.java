@@ -14,6 +14,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import xyz.linin.bookstore_backend.constants.SecurityConstants;
+import xyz.linin.bookstore_backend.filter.JwtAuthenticationFilter;
 
 import java.util.Arrays;
 
