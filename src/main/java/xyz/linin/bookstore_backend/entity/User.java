@@ -1,32 +1,37 @@
 package xyz.linin.bookstore_backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import xyz.linin.bookstore_backend.constants.Role;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Data
 public class User {
     @Id
     @ApiModelProperty("id")
-    private Integer user_id;
+    @GeneratedValue
+    private Integer id;
 
-    @Column(nullable = false)
     @ApiModelProperty("用户名")
     private String name;
 
     @Column(nullable = false)
-    @ApiModelProperty("昵称")
-    private String nickname;
-
-    @Column(nullable = false)
     @ApiModelProperty("电话")
-    private String tel;
+    private String phone;
 
     @Column(nullable = false)
     @ApiModelProperty("地址")
     private String address;
+
+    @Column(nullable = false)
+    @JsonIgnore
+    private String password;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    @ApiModelProperty("角色")
+    private Role role = Role.user;
 }

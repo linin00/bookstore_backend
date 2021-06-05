@@ -5,6 +5,7 @@ import lombok.Data;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
@@ -12,6 +13,7 @@ import javax.persistence.Id;
 public class Book {
     @Id
     @ApiModelProperty("id")
+    @GeneratedValue
     private Integer id;
 
     @Column(nullable = false)
@@ -32,7 +34,7 @@ public class Book {
 
     @Column(nullable = false)
     @ApiModelProperty("价格")
-    private Double price;
+    private Integer price;
 
     @Column(nullable = false)
     @ApiModelProperty("描述")

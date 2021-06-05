@@ -1,9 +1,11 @@
 package xyz.linin.bookstore_backend.dto;
 
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 
+@Data
 public class BookDto {
 
     @ApiModelProperty("id")
@@ -27,7 +29,7 @@ public class BookDto {
 
     @NotBlank
     @ApiModelProperty("价格")
-    private Double price;
+    private Integer price;
 
     @NotBlank
     @ApiModelProperty("描述")

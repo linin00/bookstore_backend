@@ -9,6 +9,6 @@ import java.util.Optional;
 public interface UserRepository extends CrudRepository<User, Integer> {
     @Override
     List<User> findAll();
-
-    //Optional<User> findById(Integer user_id);
+    User findByName(String name);
+    boolean existsByName(String name);
 }

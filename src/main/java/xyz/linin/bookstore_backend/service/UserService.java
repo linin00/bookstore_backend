@@ -1,5 +1,6 @@
 package xyz.linin.bookstore_backend.service;
 
+import xyz.linin.bookstore_backend.dto.NewUser;
 import xyz.linin.bookstore_backend.dto.UserDto;
 import xyz.linin.bookstore_backend.entity.User;
 
@@ -11,6 +12,5 @@ public interface UserService {
     boolean edit(Integer user_id, UserDto userDto);
     boolean changePassword(Integer user_id,String newPassword);
     List<User> all();
-    boolean add(UserDto userdto);
-    boolean checkPassword(Integer user_id, String password);
+    void register(NewUser newUser);
 }

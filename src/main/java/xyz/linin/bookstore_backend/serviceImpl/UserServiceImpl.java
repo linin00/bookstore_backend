@@ -4,8 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import xyz.linin.bookstore_backend.dao.UserDao;
+import xyz.linin.bookstore_backend.dto.NewUser;
 import xyz.linin.bookstore_backend.dto.UserDto;
 import xyz.linin.bookstore_backend.entity.User;
+import xyz.linin.bookstore_backend.exception.BusinessLogicException;
 import xyz.linin.bookstore_backend.service.UserService;
 
 import java.util.List;
@@ -36,11 +38,10 @@ public class UserServiceImpl implements UserService {
         return userDao.all();
     }
 
-    public boolean add(UserDto userDto) {
-        return userDao.add(userDto);
-    }
-
-    public boolean checkPassword(Integer user_id, String password) {
-        return userDao.checkPassword(user_id, password);
+    public void register(NewUser newUser) {
+        if (userDao.existByName(newUser.getName())) {
+            throw new BusinessLogicException("学工号已存在");
+        }
+        userDao.add(newUser);
     }
 }

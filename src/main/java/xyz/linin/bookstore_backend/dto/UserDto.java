@@ -1,17 +1,15 @@
 package xyz.linin.bookstore_backend.dto;
 
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 
+@Data
 public class UserDto {
     @NotBlank
     @ApiModelProperty("id")
     private Integer user_id;
-
-    @NotBlank
-    @ApiModelProperty("昵称")
-    private String nickname;
 
     @NotBlank
     @ApiModelProperty("用户名")
@@ -23,5 +21,9 @@ public class UserDto {
 
     @NotBlank
     @ApiModelProperty("电话")
-    private String tel;
+    private String phone;
+
+    @NotBlank
+    @ApiModelProperty("购物车")
+    private Integer cartId;
 }

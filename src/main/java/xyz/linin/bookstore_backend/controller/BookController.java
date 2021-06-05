@@ -14,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/book")
+@CrossOrigin(origins = "http://localhost:8000", maxAge = 3600)
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class BookController {
     private final BookService bookService;
