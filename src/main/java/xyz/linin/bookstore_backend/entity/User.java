@@ -12,7 +12,7 @@ import javax.persistence.*;
 public class User {
     @Id
     @ApiModelProperty("id")
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @ApiModelProperty("用户名")

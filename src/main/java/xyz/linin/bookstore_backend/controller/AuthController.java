@@ -15,7 +15,6 @@ import xyz.linin.bookstore_backend.service.AuthService;
 
 @RestController
 @RequestMapping("/auth")
-@CrossOrigin(origins = "http://localhost:8000", maxAge = 3600)
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class AuthController {
     private final AuthService authService;

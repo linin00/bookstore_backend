@@ -1,4 +1,4 @@
-package cn.edu.sjtu.smms.exception;
+package xyz.linin.bookstore_backend.exception;
 
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;

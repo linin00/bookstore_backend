@@ -25,8 +25,11 @@ public class BookDaoImpl implements BookDao {
         return true;
     }
     public boolean edit(Integer id, BookDto bookDto) {
-        if (!bookRepository.existsById(id)) return false;
-        Book book = bookRepository.findById(id).get();
+        Book book;
+        if (!bookRepository.existsById(id)) {
+            book = new Book();
+        }
+        else book = bookRepository.findById(id).get();
         modelMapper.map(bookDto, book);
         bookRepository.save(book);
         return true;

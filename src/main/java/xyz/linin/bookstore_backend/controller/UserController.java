@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import xyz.linin.bookstore_backend.dto.NewUser;
+import xyz.linin.bookstore_backend.dto.UserDto;
 import xyz.linin.bookstore_backend.dto.api.DataResponse;
 import xyz.linin.bookstore_backend.entity.Book;
 import xyz.linin.bookstore_backend.entity.User;
@@ -18,15 +19,35 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:8000", maxAge = 3600)
 @RequestMapping("/user")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class UserController {
     private final UserService userService;
+
     @ApiOperation("用户注册")
     @PostMapping("/register")
     public ResponseEntity<?> register(@Valid @RequestBody NewUser newUser) {
         userService.register(newUser);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @ApiOperation("获得所有用户")
+    @GetMapping
+    public DataResponse<List<User>> getAll() {
+        return new DataResponse<>(userService.all());
+    }
+
+    @ApiOperation("修改用户信息")
+    @PutMapping("/{userId}")
+    public ResponseEntity<?> edit(@PathVariable Integer userId, @Valid @RequestBody UserDto userDto) {
+        userService.edit(userId, userDto);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @ApiOperation("删除用户")
+    @DeleteMapping("/{userId}")
+    public ResponseEntity<?> del(@PathVariable Integer userId) {
+        userService.delete(userId);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }

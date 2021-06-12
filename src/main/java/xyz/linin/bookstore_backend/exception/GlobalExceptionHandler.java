@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import xyz.linin.bookstore_backend.dto.api.ErrorResponse;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import javax.validation.ConstraintViolationException;
 import java.util.List;
 

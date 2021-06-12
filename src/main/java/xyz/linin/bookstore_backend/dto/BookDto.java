@@ -27,7 +27,6 @@ public class BookDto {
     @ApiModelProperty("作者")
     private String author;
 
-    @NotBlank
     @ApiModelProperty("价格")
     private Integer price;
 
@@ -35,7 +34,6 @@ public class BookDto {
     @ApiModelProperty("描述")
     private String description;
 
-    @NotBlank
     @ApiModelProperty("库存")
     private Integer inventory;
 

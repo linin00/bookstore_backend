@@ -33,7 +33,7 @@ public class SwaggerConfiguration {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("cn.edu.sjtu.smms"))
+                .apis(RequestHandlerSelectors.basePackage("cn.xyz.linin"))
                 .paths(PathSelectors.any())
                 .build()
 //                .genericModelSubstitutes(DataResponse.class, DataResponseBody.class)
@@ -79,8 +79,8 @@ public class SwaggerConfiguration {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("SJTU-SMMS Backend")
-                .description("上海交通大学学生运动会管理系统 后端")
+                .title("bookstore")
+                .description("大聪明书店 后端")
                 .version("1.0")
                 .build();
     }

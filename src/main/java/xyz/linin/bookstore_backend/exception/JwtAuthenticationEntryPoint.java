@@ -1,4 +1,4 @@
-package cn.edu.sjtu.smms.exception;
+package xyz.linin.bookstore_backend.exception;
 
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;

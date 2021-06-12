@@ -1,6 +1,4 @@
 package xyz.linin.bookstore_backend.filter;
-import cn.edu.sjtu.smms.constants.SecurityConstants;
-import cn.edu.sjtu.smms.utils.JwtUtils;
 import io.jsonwebtoken.JwtException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

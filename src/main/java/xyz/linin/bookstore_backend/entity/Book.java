@@ -13,7 +13,6 @@ import javax.persistence.Id;
 public class Book {
     @Id
     @ApiModelProperty("id")
-    @GeneratedValue
     private Integer id;
 
     @Column(nullable = false)
