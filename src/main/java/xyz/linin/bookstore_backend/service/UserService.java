@@ -7,10 +7,15 @@ import xyz.linin.bookstore_backend.entity.User;
 import java.util.List;
 
 public interface UserService {
-    User find(Integer user_id);
     boolean delete(Integer user_id);
+
     boolean edit(Integer user_id, UserDto userDto);
-    boolean changePassword(Integer user_id,String newPassword);
-    List<User> all();
+
+    boolean changePassword(Integer user_id, String newPassword);
+
+    List<User> getAll();
+
     void register(NewUser newUser);
+
+    User getInfo();
 }

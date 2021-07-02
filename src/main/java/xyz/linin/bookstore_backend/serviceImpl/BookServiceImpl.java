@@ -1,6 +1,5 @@
 package xyz.linin.bookstore_backend.serviceImpl;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import xyz.linin.bookstore_backend.dao.BookDao;
@@ -11,9 +10,10 @@ import xyz.linin.bookstore_backend.service.BookService;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class BookServiceImpl implements BookService {
-    private final BookDao bookDao;
+    @Autowired
+    private BookDao bookDao;
+
     public Book find(Integer id) {
         return bookDao.find(id);
     }

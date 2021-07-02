@@ -1,6 +1,5 @@
 package xyz.linin.bookstore_backend.daolmpl;
 
-import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -12,18 +11,22 @@ import xyz.linin.bookstore_backend.repository.BookRepository;
 import java.util.List;
 
 @Repository
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class BookDaoImpl implements BookDao {
-    private final BookRepository bookRepository;
-    private final ModelMapper modelMapper;
-    public Book find(Integer id){
+    @Autowired
+    private BookRepository bookRepository;
+    @Autowired
+    private ModelMapper modelMapper;
+
+    public Book find(Integer id) {
         return bookRepository.findById(id).get();
     }
+
     public boolean delete(Integer id) {
         if (!bookRepository.existsById(id)) return false;
         bookRepository.deleteById(id);
         return true;
     }
+
     public boolean edit(Integer id, BookDto bookDto) {
         Book book;
         if (!bookRepository.existsById(id)) {

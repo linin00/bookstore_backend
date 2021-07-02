@@ -15,7 +15,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import xyz.linin.bookstore_backend.constants.SecurityConstants;
 import xyz.linin.bookstore_backend.exception.JwtAccessDeniedHandler;
-import xyz.linin.bookstore_backend.exception.JwtAuthenticationEntryPoint;
+import xyz.linin.bookstore_backend.filter.JwtAuthenticationEntryPoint;
 import xyz.linin.bookstore_backend.filter.JwtAuthenticationFilter;
 
 import java.util.Arrays;
@@ -35,11 +35,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers(SecurityConstants.PUBLIC_ROUTES).permitAll()
-                .antMatchers(SecurityConstants.SWAGGER_WHITELIST).permitAll()
-                .antMatchers(HttpMethod.GET, "/units").permitAll()
-                .antMatchers(HttpMethod.GET, "/systemInfo").permitAll()
-                .antMatchers(HttpMethod.GET, "/schedule").permitAll()
-                .antMatchers(HttpMethod.GET, "/events/{eventId}").permitAll()
+//                .antMatchers(SecurityConstants.SWAGGER_WHITELIST).permitAll()
+                .antMatchers(HttpMethod.GET, "/book").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilter(new JwtAuthenticationFilter(authenticationManager()))
@@ -52,7 +49,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:8000","http://localhost:3000"));
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:8000"));
         // Critical for CORS preflight requests
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "DELETE", "PUT", "PATCH", "OPTIONS"));

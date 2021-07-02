@@ -1,20 +1,17 @@
 package xyz.linin.bookstore_backend.entity;
 
-import io.swagger.annotations.ApiModel;
-import java.util.ArrayList;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 @Getter
 @NoArgsConstructor
-@ApiModel("用户认证信息")
 public class AuthUser implements UserDetails {
     private Integer id;
 

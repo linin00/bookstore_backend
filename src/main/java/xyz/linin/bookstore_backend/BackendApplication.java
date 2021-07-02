@@ -2,7 +2,6 @@ package xyz.linin.bookstore_backend;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import xyz.linin.bookstore_backend.controller.UserController;
 
 /**
  * Hello world!

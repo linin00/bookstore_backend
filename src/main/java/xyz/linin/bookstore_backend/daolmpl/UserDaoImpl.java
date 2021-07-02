@@ -1,6 +1,5 @@
 package xyz.linin.bookstore_backend.daolmpl;
 
-import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -13,14 +12,16 @@ import xyz.linin.bookstore_backend.repository.UserRepository;
 import java.util.List;
 
 @Repository
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class UserDaoImpl implements UserDao {
-    private final UserRepository userRepository;
-    private final ModelMapper modelMapper;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private ModelMapper modelMapper;
 
     public User find(Integer user_id) {
         return userRepository.findById(user_id).get();
     }
+
     public User findByName(String name) {
         return userRepository.findByName(name);
     }

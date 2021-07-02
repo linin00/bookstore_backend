@@ -1,7 +1,7 @@
 package xyz.linin.bookstore_backend.serviceImpl;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -13,16 +13,16 @@ import xyz.linin.bookstore_backend.dto.LoginCredentials;
 import xyz.linin.bookstore_backend.entity.AuthUser;
 import xyz.linin.bookstore_backend.entity.User;
 import xyz.linin.bookstore_backend.service.AuthService;
-import org.springframework.security.authentication.BadCredentialsException;
 import xyz.linin.bookstore_backend.utils.JwtUtils;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class AuthServiceImpl implements AuthService {
-    private final UserDao userDao;
+    @Autowired
+    private UserDao userDao;
+
     public AuthResult login(LoginCredentials loginCredentials) {
         if (!userDao.checkPassword(loginCredentials.getPassword(), loginCredentials.getName())) {
             throw new BadCredentialsException("用户名或密码错误");

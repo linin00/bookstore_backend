@@ -1,4 +1,5 @@
 package xyz.linin.bookstore_backend.filter;
+
 import io.jsonwebtoken.JwtException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -30,7 +31,7 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
             return;
         }
         String tokenValue = token.replace(SecurityConstants.TOKEN_PREFIX, "");
-        UsernamePasswordAuthenticationToken authentication = null;
+        UsernamePasswordAuthenticationToken authentication;
         try {
             authentication = JwtUtils.getAuthentication(tokenValue);
             SecurityContextHolder.getContext().setAuthentication(authentication);
