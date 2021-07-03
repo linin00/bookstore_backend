@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import xyz.linin.bookstore_backend.dto.api.DataResponse;
+import xyz.linin.bookstore_backend.entity.Book;
 import xyz.linin.bookstore_backend.entity.CartItem;
 import xyz.linin.bookstore_backend.service.CartService;
 
@@ -23,8 +24,8 @@ public class CartController {
     }
 
     @PostMapping
-    public ResponseEntity<?> addItem(@Valid @RequestBody CartItem cartItem) {
-        cartService.addItem(cartItem);
+    public ResponseEntity<?> addItem(@Valid @RequestBody Book book) {
+        cartService.addItem(book);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
@@ -34,9 +35,9 @@ public class CartController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @PutMapping("/{itemId}")
-    public ResponseEntity<?> editItem(@PathVariable Integer itemId, @Valid @RequestBody CartItem cartItem) {
-        cartService.editItem(itemId, cartItem);
+    @PutMapping
+    public ResponseEntity<?> editItem(@Valid @RequestBody CartItem cartItem) {
+        cartService.editItem(cartItem);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 

@@ -3,6 +3,7 @@ package xyz.linin.bookstore_backend.serviceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import xyz.linin.bookstore_backend.dao.CartDao;
+import xyz.linin.bookstore_backend.entity.Book;
 import xyz.linin.bookstore_backend.entity.CartItem;
 import xyz.linin.bookstore_backend.entity.User;
 import xyz.linin.bookstore_backend.service.AuthService;
@@ -24,15 +25,15 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public void addItem(CartItem cartItem) {
+    public void addItem(Book book) {
         User user = authService.getCurrentUser();
-        cartDao.add(user, cartItem);
+        cartDao.add(user, book);
     }
 
     @Override
-    public void editItem(Integer itemId, CartItem cartItem) {
+    public void editItem(CartItem cartItem) {
         User user = authService.getCurrentUser();
-        cartDao.edit(user, itemId, cartItem);
+        cartDao.edit(user, cartItem);
     }
 
     @Override

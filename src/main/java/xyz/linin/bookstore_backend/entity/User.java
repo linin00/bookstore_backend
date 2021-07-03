@@ -28,4 +28,8 @@ public class User {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role = Role.user;
+
+    @OneToOne
+    @JsonIgnore
+    private Cart cart;
 }

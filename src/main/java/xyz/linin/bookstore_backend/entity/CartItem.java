@@ -17,5 +17,5 @@ public class CartItem {
     @OneToOne
     private Book book;
 
-    private Integer amount;
+    private Integer amount = 1;
 }
