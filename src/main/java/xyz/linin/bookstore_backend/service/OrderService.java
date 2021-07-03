@@ -12,7 +12,7 @@ public interface OrderService {
 
     void payForOrder(Integer orderId);
 
-    void editItem(Integer itemId, OrderItem orderItem);
+    void editItem(OrderItem orderItem);
 
     void delOrder(Integer orderId);
 
@@ -21,4 +21,6 @@ public interface OrderService {
     void handleOrder(Integer orderId);
 
     void completeOrder(Integer orderId);
+
+    void cancelOrder(Integer orderId);
 }

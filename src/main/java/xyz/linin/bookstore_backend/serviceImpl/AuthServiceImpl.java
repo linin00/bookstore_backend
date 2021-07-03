@@ -25,7 +25,7 @@ public class AuthServiceImpl implements AuthService {
 
     public AuthResult login(LoginCredentials loginCredentials) {
         if (!userDao.checkPassword(loginCredentials.getPassword(), loginCredentials.getName())) {
-            throw new BadCredentialsException("用户名或密码错误");
+            throw new BadCredentialsException("学工号或密码错误");
         }
         User user = userDao.findByName(loginCredentials.getName());
         AuthUser authUser = new AuthUser(user);
@@ -36,9 +36,10 @@ public class AuthServiceImpl implements AuthService {
         String token = JwtUtils.createToken(user.getName(), user.getId().toString(), authorities);
         return new AuthResult(user, SecurityConstants.TOKEN_PREFIX + token);
     }
+
     public User getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String name = authentication.getPrincipal().toString();
-        return userDao.findByName(name);
+        String idNo = authentication.getPrincipal().toString();
+        return userDao.findByName(idNo);
     }
 }

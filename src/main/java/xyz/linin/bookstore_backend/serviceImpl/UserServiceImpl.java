@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import xyz.linin.bookstore_backend.dao.UserDao;
 import xyz.linin.bookstore_backend.dto.NewUser;
 import xyz.linin.bookstore_backend.dto.UserDto;
+import xyz.linin.bookstore_backend.entity.Cart;
 import xyz.linin.bookstore_backend.entity.User;
 import xyz.linin.bookstore_backend.exception.BusinessLogicException;
 import xyz.linin.bookstore_backend.service.AuthService;

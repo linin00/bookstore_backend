@@ -5,6 +5,7 @@ import lombok.Data;
 import xyz.linin.bookstore_backend.constants.Role;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Data
@@ -32,4 +33,8 @@ public class User {
     @OneToOne
     @JsonIgnore
     private Cart cart;
+
+    @OneToMany(mappedBy = "user")
+    @JsonIgnore
+    private List<Order> orders;
 }

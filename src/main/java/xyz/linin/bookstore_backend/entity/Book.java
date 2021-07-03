@@ -1,10 +1,12 @@
 package xyz.linin.bookstore_backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 @Entity
 @Data
@@ -35,4 +37,8 @@ public class Book {
 
     @Column(nullable = false)
     private String image;
+
+    @OneToOne
+    @JsonIgnore
+    private Ledger ledger;
 }

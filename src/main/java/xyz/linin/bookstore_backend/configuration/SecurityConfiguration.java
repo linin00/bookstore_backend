@@ -37,6 +37,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(SecurityConstants.PUBLIC_ROUTES).permitAll()
 //                .antMatchers(SecurityConstants.SWAGGER_WHITELIST).permitAll()
                 .antMatchers(HttpMethod.GET, "/book").permitAll()
+                .antMatchers(HttpMethod.POST, "/user/register").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilter(new JwtAuthenticationFilter(authenticationManager()))

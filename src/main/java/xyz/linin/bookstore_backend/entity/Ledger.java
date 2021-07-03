@@ -7,14 +7,16 @@ import java.util.List;
 
 @Entity
 @Data
-public class Cart {
+public class Ledger {
     @Id
     @GeneratedValue
     private Integer id;
 
     @OneToOne
-    private User user;
+    private Book book;
 
-    @OneToMany(mappedBy="cart")
-    private List<CartItem> cartItems;
+    private Integer amount = 0;
+
+    @OneToMany(mappedBy = "ledger")
+    private List<OrderItem> orderItems;
 }

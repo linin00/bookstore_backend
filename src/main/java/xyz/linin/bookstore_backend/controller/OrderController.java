@@ -41,9 +41,9 @@ public class OrderController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @PutMapping("/{itemId}")
-    public ResponseEntity<?> editItem(@PathVariable Integer itemId, @Valid @RequestBody OrderItem orderItem) {
-        orderService.editItem(itemId, orderItem);
+    @PutMapping
+    public ResponseEntity<?> editItem(@Valid @RequestBody OrderItem orderItem) {
+        orderService.editItem(orderItem);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
@@ -62,6 +62,12 @@ public class OrderController {
     @PutMapping("/complete/{orderId}")
     public ResponseEntity<?> completeOrder(@PathVariable Integer orderId) {
         orderService.completeOrder(orderId);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @PutMapping("/cancel/{orderId}")
+    public ResponseEntity<?> cancelOrder(@PathVariable Integer orderId) {
+        orderService.cancelOrder(orderId);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }

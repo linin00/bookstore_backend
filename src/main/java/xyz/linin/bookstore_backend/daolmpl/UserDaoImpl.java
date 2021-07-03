@@ -6,7 +6,9 @@ import org.springframework.stereotype.Repository;
 import xyz.linin.bookstore_backend.dao.UserDao;
 import xyz.linin.bookstore_backend.dto.NewUser;
 import xyz.linin.bookstore_backend.dto.UserDto;
+import xyz.linin.bookstore_backend.entity.Cart;
 import xyz.linin.bookstore_backend.entity.User;
+import xyz.linin.bookstore_backend.repository.CartRepository;
 import xyz.linin.bookstore_backend.repository.UserRepository;
 
 import java.util.List;
@@ -15,6 +17,8 @@ import java.util.List;
 public class UserDaoImpl implements UserDao {
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private CartRepository cartRepository;
     @Autowired
     private ModelMapper modelMapper;
 
@@ -49,7 +53,11 @@ public class UserDaoImpl implements UserDao {
     }
 
     public boolean add (NewUser newUser) {
-        User user = modelMapper.map(newUser, User.class);
+        User user = userRepository.save(modelMapper.map(newUser, User.class));
+        Cart cart = new Cart();
+        cart.setUser(user);
+        cartRepository.save(cart);
+        user.setCart(cart);
         userRepository.save(user);
         return true;
     }

@@ -24,7 +24,7 @@ public class CartDaoImpl implements CartDao {
     @Override
     public List<CartItem> getByUser(User user) {
         Cart cart = cartRepository.findByUser(user);
-        return cartItemRepository.findAllByCart(cart);
+        return cart.getCartItems();
     }
 
     @Override
@@ -46,12 +46,17 @@ public class CartDaoImpl implements CartDao {
     @Override
     public void add(User user, Book book) {
         Cart cart = user.getCart();
-        List<CartItem> cartItems = cart.getCartItems();
-        CartItem cartItem = new CartItem();
-        cartItem.setBook(book);
-        cartItems.add(cartItem);
-        cart.setCartItems(cartItems);
-        cartRepository.save(cart);
+        if (cartItemRepository.existsByCartAndBook(cart, book)) {
+            CartItem cartItem = cartItemRepository.findByCartAndBook(cart, book);
+            cartItem.setAmount(cartItem.getAmount() + 1);
+            cartItemRepository.save(cartItem);
+        }
+        else {
+            CartItem cartItem = new CartItem();
+            cartItem.setBook(book);
+            cartItem.setCart(cart);
+            cartItemRepository.save(cartItem);
+        }
     }
 
     @Override

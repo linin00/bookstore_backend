@@ -39,9 +39,9 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void editItem(Integer itemId, OrderItem orderItem) {
+    public void editItem(OrderItem orderItem) {
         User user = authService.getCurrentUser();
-        orderDao.editItem(user, itemId, orderItem);
+        orderDao.editItem(user, orderItem);
     }
 
     @Override
@@ -68,5 +68,11 @@ public class OrderServiceImpl implements OrderService {
         User user = authService.getCurrentUser();
         if (user.getRole() != Role.admin) throw new BusinessLogicException("只能由管理员完成该操作");
         orderDao.completeOrder(orderId);
+    }
+
+    @Override
+    public void cancelOrder(Integer orderId) {
+        User user = authService.getCurrentUser();
+        orderDao.cancel(user, orderId);
     }
 }

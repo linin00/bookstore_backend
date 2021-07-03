@@ -1,5 +1,6 @@
 package xyz.linin.bookstore_backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -12,6 +13,7 @@ public class CartItem {
     private Integer id;
 
     @ManyToOne
+    @JsonIgnore
     private Cart cart;
 
     @OneToOne

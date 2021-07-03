@@ -14,7 +14,7 @@ public interface OrderDao {
 
     void pay(User user, Integer orderId);
 
-    void editItem(User user, Integer itemId, OrderItem orderItem);
+    void editItem(User user, OrderItem orderItem);
 
     void delOrder(User user, Integer orderId);
 
@@ -23,4 +23,6 @@ public interface OrderDao {
     void handleOrder(Integer orderId);
 
     void completeOrder(Integer orderId);
+
+    void cancel(User user, Integer orderId);
 }
