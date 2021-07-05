@@ -9,6 +9,7 @@ import xyz.linin.bookstore_backend.entity.User;
 import xyz.linin.bookstore_backend.service.AuthService;
 import xyz.linin.bookstore_backend.service.CartService;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -44,6 +45,7 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
+    @Transactional
     public void createOrder(List<Integer> itemIds) {
         User user = authService.getCurrentUser();
         cartDao.createOrder(user, itemIds);

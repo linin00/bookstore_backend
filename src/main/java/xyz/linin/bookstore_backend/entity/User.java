@@ -36,5 +36,5 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     @JsonIgnore
-    private List<Order> orders;
+    private List<OrderForm> orderForm;
 }

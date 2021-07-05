@@ -41,7 +41,7 @@ public class CartController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @PutMapping("/placeOrder")
+    @PostMapping("/placeOrder")
     public ResponseEntity<?> createOrder(@Valid @RequestBody List<Integer> itemIds) {
         cartService.createOrder(itemIds);
         return new ResponseEntity<>(HttpStatus.CREATED);

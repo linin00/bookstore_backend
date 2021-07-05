@@ -10,9 +10,9 @@ import java.util.List;
 
 @Entity
 @Data
-public class Order {
+public class OrderForm {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @ManyToOne
@@ -26,6 +26,6 @@ public class Order {
 
     private String address;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "orderForm")
     private List<OrderItem> orderItems;
 }

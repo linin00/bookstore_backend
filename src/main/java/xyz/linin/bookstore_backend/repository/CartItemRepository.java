@@ -11,4 +11,6 @@ public interface CartItemRepository extends CrudRepository<CartItem, Integer> {
     List<CartItem> findAllByCart(Cart cart);
     boolean existsByCartAndBook(Cart cart, Book book);
     CartItem findByCartAndBook(Cart cart, Book book);
+    List<CartItem> findAllByIdIn(List<Integer> itemIds);
+    void deleteAllByIdIn(List<Integer> itemIds);
 }

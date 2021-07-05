@@ -4,14 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import xyz.linin.bookstore_backend.constants.Role;
 import xyz.linin.bookstore_backend.dao.CartDao;
-import xyz.linin.bookstore_backend.entity.Book;
-import xyz.linin.bookstore_backend.entity.Cart;
-import xyz.linin.bookstore_backend.entity.CartItem;
-import xyz.linin.bookstore_backend.entity.User;
+import xyz.linin.bookstore_backend.entity.*;
 import xyz.linin.bookstore_backend.exception.BusinessLogicException;
 import xyz.linin.bookstore_backend.repository.CartItemRepository;
 import xyz.linin.bookstore_backend.repository.CartRepository;
+import xyz.linin.bookstore_backend.repository.OrderItemRepository;
+import xyz.linin.bookstore_backend.repository.OrderFormRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -20,6 +20,10 @@ public class CartDaoImpl implements CartDao {
     private CartRepository cartRepository;
     @Autowired
     private CartItemRepository cartItemRepository;
+    @Autowired
+    private OrderFormRepository orderFormRepository;
+    @Autowired
+    private OrderItemRepository orderItemRepository;
 
     @Override
     public List<CartItem> getByUser(User user) {
@@ -61,6 +65,23 @@ public class CartDaoImpl implements CartDao {
 
     @Override
     public void createOrder(User user, List<Integer> itemIds) {
-
+        List<CartItem> cartItems = cartItemRepository.findAllByIdIn(itemIds);
+        OrderForm orderForm = new OrderForm();
+        orderFormRepository.save(orderForm);
+        orderForm.setUser(user);
+        orderForm.setAddress(user.getAddress());
+        List<OrderItem> orderItems = new ArrayList<>();
+        for (CartItem cartItem : cartItems) {
+            if (user != cartItem.getCart().getUser()) throw new BusinessLogicException("无权限");
+            OrderItem orderItem = new OrderItem();
+            orderItem.setOrderForm(orderForm);
+            orderItem.setBook(cartItem.getBook());
+            orderItem.setAmount(cartItem.getAmount());
+            orderItems.add(orderItem);
+        }
+        cartItemRepository.deleteAllByIdIn(itemIds);
+        orderItemRepository.saveAll(orderItems);
+        orderForm.setOrderItems(orderItems);
+        orderFormRepository.save(orderForm);
     }
 }
