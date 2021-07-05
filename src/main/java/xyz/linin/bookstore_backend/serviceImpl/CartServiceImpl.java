@@ -33,6 +33,7 @@ public class CartServiceImpl implements CartService {
     @Override
     public void editItem(CartItem cartItem) {
         User user = authService.getCurrentUser();
+        cartItem.setCart(user.getCart());
         cartDao.edit(user, cartItem);
     }
 
