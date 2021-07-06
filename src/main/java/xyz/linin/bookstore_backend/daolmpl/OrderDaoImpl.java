@@ -61,8 +61,11 @@ public class OrderDaoImpl implements OrderDao {
 
     @Override
     public void editItem(User user, OrderItem orderItem) {
-        OrderForm orderForm = orderItem.getOrderForm();
+        OrderItem orderItem1 = orderItemRepository.findById(orderItem.getId()).get();
+        OrderForm orderForm = orderItem1.getOrderForm();
         if (user.getRole() != Role.admin || user != orderForm.getUser()) throw new BusinessLogicException("无权限");
+        orderItem.setOrderForm(orderItem1.getOrderForm());
+        orderItem.setLedger(orderItem1.getLedger());
         orderItemRepository.save(orderItem);
     }
 
@@ -70,7 +73,8 @@ public class OrderDaoImpl implements OrderDao {
     public void delOrder(User user, Integer orderId) {
         OrderForm orderForm = orderFormRepository.findById(orderId).get();
         if (user.getRole() != Role.admin || user != orderForm.getUser()) throw new BusinessLogicException("无权限");
-        orderFormRepository.deleteById(orderId);
+        orderItemRepository.deleteAll(orderForm.getOrderItems());
+        orderFormRepository.delete(orderForm);
     }
 
     @Override
@@ -78,6 +82,8 @@ public class OrderDaoImpl implements OrderDao {
         OrderItem orderItem = orderItemRepository.findById(itemId).get();
         if (user.getRole() != Role.admin || user != orderItem.getOrderForm().getUser()) throw new BusinessLogicException("无权限");
         orderItemRepository.deleteById(itemId);
+        OrderForm orderForm = orderItem.getOrderForm();
+        if (orderForm.getOrderItems().size() == 0) orderFormRepository.delete(orderForm);
     }
 
     @Override
@@ -100,5 +106,11 @@ public class OrderDaoImpl implements OrderDao {
         if (user.getRole() != Role.admin || user != orderForm.getUser()) throw new BusinessLogicException("无权限");
         orderForm.setState(OrderState.CANCELLED);
         orderFormRepository.save(orderForm);
+    }
+
+    @Override
+    public List<OrderForm> getOrder(User user) {
+        System.out.println(orderFormRepository.findAllByUser(user).size());
+        return orderFormRepository.findAllByUser(user);
     }
 }

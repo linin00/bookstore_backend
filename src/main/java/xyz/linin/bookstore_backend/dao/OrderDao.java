@@ -2,6 +2,7 @@ package xyz.linin.bookstore_backend.dao;
 
 
 import xyz.linin.bookstore_backend.entity.Book;
+import xyz.linin.bookstore_backend.entity.OrderForm;
 import xyz.linin.bookstore_backend.entity.OrderItem;
 import xyz.linin.bookstore_backend.entity.User;
 
@@ -25,4 +26,6 @@ public interface OrderDao {
     void completeOrder(Integer orderId);
 
     void cancel(User user, Integer orderId);
+
+    List<OrderForm> getOrder(User user);
 }

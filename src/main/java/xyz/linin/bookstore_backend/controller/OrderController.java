@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import xyz.linin.bookstore_backend.dto.api.DataResponse;
 import xyz.linin.bookstore_backend.entity.Book;
+import xyz.linin.bookstore_backend.entity.OrderForm;
 import xyz.linin.bookstore_backend.entity.OrderItem;
 import xyz.linin.bookstore_backend.service.OrderService;
 
@@ -24,15 +25,20 @@ public class OrderController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @PostMapping("/deleteItem")
-    public ResponseEntity<?> delItem(@Valid @RequestParam(value = "orderId") Integer orderId, @Valid @RequestParam(value = "itemId") Integer itemId) {
-        orderService.delItem(orderId, itemId);
+    @DeleteMapping("/deleteItem/{itemId}")
+    public ResponseEntity<?> delItem(@PathVariable Integer itemId) {
+        orderService.delItem(itemId);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @GetMapping("/{orderId}")
-    public DataResponse<List<OrderItem>> getOrderItems(@PathVariable Integer orderId) {
-        return new DataResponse<>(orderService.getOrderItems(orderId));
+//    @GetMapping("/{orderId}")
+//    public DataResponse<List<OrderItem>> getOrderItems(@PathVariable Integer orderId) {
+//        return new DataResponse<>(orderService.getOrderItems(orderId));
+//    }
+
+    @GetMapping
+    public DataResponse<List<OrderForm>> getOrder() {
+        return new DataResponse<>(orderService.getOrder());
     }
 
     @PutMapping("/pay/{orderId}")

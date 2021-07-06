@@ -1,16 +1,19 @@
 package xyz.linin.bookstore_backend.serviceImpl;
 
+import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import xyz.linin.bookstore_backend.constants.Role;
 import xyz.linin.bookstore_backend.dao.OrderDao;
 import xyz.linin.bookstore_backend.entity.Book;
+import xyz.linin.bookstore_backend.entity.OrderForm;
 import xyz.linin.bookstore_backend.entity.OrderItem;
 import xyz.linin.bookstore_backend.entity.User;
 import xyz.linin.bookstore_backend.exception.BusinessLogicException;
 import xyz.linin.bookstore_backend.service.AuthService;
 import xyz.linin.bookstore_backend.service.OrderService;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -33,12 +36,19 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public List<OrderForm> getOrder() {
+        User user = authService.getCurrentUser();
+        return orderDao.getOrder(user);
+    }
+
+    @Override
     public void payForOrder(Integer orderId) {
         User user = authService.getCurrentUser();
         orderDao.pay(user, orderId);
     }
 
     @Override
+    @Transactional
     public void editItem(OrderItem orderItem) {
         User user = authService.getCurrentUser();
         orderDao.editItem(user, orderItem);
@@ -51,7 +61,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void delItem(Integer orderId, Integer itemId) {
+    public void delItem(Integer itemId) {
         User user = authService.getCurrentUser();
         orderDao.delItem(user, itemId);
     }
