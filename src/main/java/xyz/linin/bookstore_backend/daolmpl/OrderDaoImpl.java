@@ -1,5 +1,6 @@
 package xyz.linin.bookstore_backend.daolmpl;
 
+import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import xyz.linin.bookstore_backend.constants.OrderState;
@@ -55,6 +56,9 @@ public class OrderDaoImpl implements OrderDao {
     public void pay(User user, Integer orderId) {
         OrderForm orderForm = orderFormRepository.findById(orderId).get();
         if (user.getRole() != Role.admin || user != orderForm.getUser()) throw new BusinessLogicException("无权限");
+        if (orderForm.getState() == OrderState.PAID || orderForm.getState() == OrderState.HANDLING) throw new BusinessLogicException("已支付，请勿重复支付");
+        if (orderForm.getState() == OrderState.CANCELLED) throw new BusinessLogicException("支付失败，订单已取消");
+        if (orderForm.getState() == OrderState.COMPLETE) throw new BusinessLogicException("支付失败，订单已完成");
         orderForm.setState(OrderState.PAID);
         orderFormRepository.save(orderForm);
     }
@@ -112,5 +116,12 @@ public class OrderDaoImpl implements OrderDao {
     public List<OrderForm> getOrder(User user) {
         System.out.println(orderFormRepository.findAllByUser(user).size());
         return orderFormRepository.findAllByUser(user);
+    }
+
+    @Override
+    public OrderForm getOrderById(User user, Integer orderId) {
+        OrderForm orderForm = orderFormRepository.findById(orderId).get();
+        if (user.getRole() != Role.admin || user != orderForm.getUser()) throw new BusinessLogicException("无权限");
+        return orderForm;
     }
 }

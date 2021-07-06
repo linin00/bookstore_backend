@@ -1,6 +1,7 @@
 package xyz.linin.bookstore_backend.dao;
 
 
+import org.hibernate.criterion.Order;
 import xyz.linin.bookstore_backend.entity.Book;
 import xyz.linin.bookstore_backend.entity.OrderForm;
 import xyz.linin.bookstore_backend.entity.OrderItem;
@@ -28,4 +29,6 @@ public interface OrderDao {
     void cancel(User user, Integer orderId);
 
     List<OrderForm> getOrder(User user);
+
+    OrderForm getOrderById(User user, Integer orderId);
 }

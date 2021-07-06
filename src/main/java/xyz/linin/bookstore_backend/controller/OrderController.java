@@ -1,5 +1,6 @@
 package xyz.linin.bookstore_backend.controller;
 
+import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,10 +32,10 @@ public class OrderController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-//    @GetMapping("/{orderId}")
-//    public DataResponse<List<OrderItem>> getOrderItems(@PathVariable Integer orderId) {
-//        return new DataResponse<>(orderService.getOrderItems(orderId));
-//    }
+    @GetMapping("/{orderId}")
+    public DataResponse<OrderForm> getOrderItems(@PathVariable Integer orderId) {
+        return new DataResponse<>(orderService.getOrderById(orderId));
+    }
 
     @GetMapping
     public DataResponse<List<OrderForm>> getOrder() {

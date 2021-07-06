@@ -85,4 +85,10 @@ public class OrderServiceImpl implements OrderService {
         User user = authService.getCurrentUser();
         orderDao.cancel(user, orderId);
     }
+
+    @Override
+    public OrderForm getOrderById(Integer orderId) {
+        User user = authService.getCurrentUser();
+        return orderDao.getOrderById(user, orderId);
+    }
 }
