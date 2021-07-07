@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface OrderFormRepository extends CrudRepository<OrderForm, Integer> {
     List<OrderForm> findAllByUser(User user);
+    @Override
+    List<OrderForm> findAll();
 }

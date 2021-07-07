@@ -58,7 +58,7 @@ public class OrderDaoImpl implements OrderDao {
         if (user.getRole() != Role.admin || user != orderForm.getUser()) throw new BusinessLogicException("无权限");
         if (orderForm.getState() == OrderState.PAID || orderForm.getState() == OrderState.HANDLING) throw new BusinessLogicException("已支付，请勿重复支付");
         if (orderForm.getState() == OrderState.CANCELLED) throw new BusinessLogicException("支付失败，订单已取消");
-        if (orderForm.getState() == OrderState.COMPLETE) throw new BusinessLogicException("支付失败，订单已完成");
+        if (orderForm.getState() == OrderState.COMPLETED) throw new BusinessLogicException("支付失败，订单已完成");
         orderForm.setState(OrderState.PAID);
         orderFormRepository.save(orderForm);
     }
@@ -100,7 +100,7 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public void completeOrder(Integer orderId) {
         OrderForm orderForm = orderFormRepository.findById(orderId).get();
-        orderForm.setState(OrderState.COMPLETE);
+        orderForm.setState(OrderState.COMPLETED);
         orderFormRepository.save(orderForm);
     }
 
@@ -123,5 +123,10 @@ public class OrderDaoImpl implements OrderDao {
         OrderForm orderForm = orderFormRepository.findById(orderId).get();
         if (user.getRole() != Role.admin || user != orderForm.getUser()) throw new BusinessLogicException("无权限");
         return orderForm;
+    }
+
+    @Override
+    public List<OrderForm> getOrders() {
+        return orderFormRepository.findAll();
     }
 }

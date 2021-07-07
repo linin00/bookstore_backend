@@ -91,4 +91,11 @@ public class OrderServiceImpl implements OrderService {
         User user = authService.getCurrentUser();
         return orderDao.getOrderById(user, orderId);
     }
+
+    @Override
+    public List<OrderForm> getOrders() {
+        User user = authService.getCurrentUser();
+        if (user.getRole() != Role.admin) throw new BusinessLogicException("无权限");
+        return orderDao.getOrders();
+    }
 }

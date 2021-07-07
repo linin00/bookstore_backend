@@ -5,5 +5,5 @@ public enum OrderState {
     UNPAID,
     CANCELLED,
     HANDLING,
-    COMPLETE
+    COMPLETED
 }

@@ -29,4 +29,6 @@ public interface OrderService {
     void cancelOrder(Integer orderId);
 
     OrderForm getOrderById(Integer orderId);
+
+    List<OrderForm> getOrders();
 }

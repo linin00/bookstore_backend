@@ -42,6 +42,11 @@ public class OrderController {
         return new DataResponse<>(orderService.getOrder());
     }
 
+    @GetMapping("/all")
+    public DataResponse<List<OrderForm>> getOrders() {
+        return new DataResponse<>(orderService.getOrders());
+    }
+
     @PutMapping("/pay/{orderId}")
     public ResponseEntity<?> payForOrder(@PathVariable Integer orderId) {
         orderService.payForOrder(orderId);

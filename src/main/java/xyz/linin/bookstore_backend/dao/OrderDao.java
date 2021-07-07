@@ -31,4 +31,6 @@ public interface OrderDao {
     List<OrderForm> getOrder(User user);
 
     OrderForm getOrderById(User user, Integer orderId);
+
+    List<OrderForm> getOrders();
 }
