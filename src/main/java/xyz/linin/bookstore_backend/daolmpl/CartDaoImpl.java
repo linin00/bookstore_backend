@@ -8,8 +8,8 @@ import xyz.linin.bookstore_backend.entity.*;
 import xyz.linin.bookstore_backend.exception.BusinessLogicException;
 import xyz.linin.bookstore_backend.repository.CartItemRepository;
 import xyz.linin.bookstore_backend.repository.CartRepository;
-import xyz.linin.bookstore_backend.repository.OrderItemRepository;
 import xyz.linin.bookstore_backend.repository.OrderFormRepository;
+import xyz.linin.bookstore_backend.repository.OrderItemRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +35,7 @@ public class CartDaoImpl implements CartDao {
     public void edit(User user, CartItem cartItem) {
         CartItem cartItem1 = cartItemRepository.findById(cartItem.getId()).get();
         Cart cart = cartItem1.getCart();
-        if (cart.getUser() != user || user.getRole() != Role.admin) throw new BusinessLogicException("无权限");
+        if (cart.getUser() != user && user.getRole() != Role.admin) throw new BusinessLogicException("无权限");
         cartItemRepository.save(cartItem);
     }
 
@@ -43,7 +43,7 @@ public class CartDaoImpl implements CartDao {
     public void del(User user, Integer itemId) {
         CartItem cartItem1 = cartItemRepository.findById(itemId).get();
         Cart cart = cartItem1.getCart();
-        if (cart.getUser() != user || user.getRole() != Role.admin) throw new BusinessLogicException("无权限");
+        if (cart.getUser() != user && user.getRole() != Role.admin) throw new BusinessLogicException("无权限");
         cartItemRepository.deleteById(itemId);
     }
 

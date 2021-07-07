@@ -3,12 +3,13 @@ package xyz.linin.bookstore_backend.entity;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Data
 public class Ledger {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @OneToOne
@@ -16,6 +17,6 @@ public class Ledger {
 
     private Integer amount = 0;
 
-    @OneToOne
-    private OrderItem orderItem;
+    @OneToMany(mappedBy = "ledger")
+    private List<OrderItem> orderItems;
 }

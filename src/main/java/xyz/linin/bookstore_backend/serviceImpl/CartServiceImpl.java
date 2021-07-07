@@ -20,18 +20,21 @@ public class CartServiceImpl implements CartService {
     private AuthService authService;
 
     @Override
+    @Transactional
     public List<CartItem> getCart() {
         User user = authService.getCurrentUser();
         return cartDao.getByUser(user);
     }
 
     @Override
+    @Transactional
     public void addItem(Book book) {
         User user = authService.getCurrentUser();
         cartDao.add(user, book);
     }
 
     @Override
+    @Transactional
     public void editItem(CartItem cartItem) {
         User user = authService.getCurrentUser();
         cartItem.setCart(user.getCart());
@@ -39,6 +42,7 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
+    @Transactional
     public void delItem(Integer itemId) {
         User user = authService.getCurrentUser();
         cartDao.del(user, itemId);
