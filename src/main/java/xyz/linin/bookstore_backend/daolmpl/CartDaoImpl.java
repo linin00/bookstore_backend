@@ -6,10 +6,7 @@ import xyz.linin.bookstore_backend.constants.Role;
 import xyz.linin.bookstore_backend.dao.CartDao;
 import xyz.linin.bookstore_backend.entity.*;
 import xyz.linin.bookstore_backend.exception.BusinessLogicException;
-import xyz.linin.bookstore_backend.repository.CartItemRepository;
-import xyz.linin.bookstore_backend.repository.CartRepository;
-import xyz.linin.bookstore_backend.repository.OrderFormRepository;
-import xyz.linin.bookstore_backend.repository.OrderItemRepository;
+import xyz.linin.bookstore_backend.repository.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +21,8 @@ public class CartDaoImpl implements CartDao {
     private OrderFormRepository orderFormRepository;
     @Autowired
     private OrderItemRepository orderItemRepository;
+    @Autowired
+    private BookRepository bookRepository;
 
     @Override
     public List<CartItem> getByUser(User user) {
@@ -73,9 +72,13 @@ public class CartDaoImpl implements CartDao {
         List<OrderItem> orderItems = new ArrayList<>();
         for (CartItem cartItem : cartItems) {
             if (user != cartItem.getCart().getUser()) throw new BusinessLogicException("无权限");
+            Book book = bookRepository.findById(cartItem.getBook().getId()).get();
+            if (cartItem.getAmount() > book.getInventory()) throw new BusinessLogicException("库存不足");
+            book.setInventory(book.getInventory() - cartItem.getAmount());
+            bookRepository.save(book);
             OrderItem orderItem = new OrderItem();
             orderItem.setOrderForm(orderForm);
-            orderItem.setBook(cartItem.getBook());
+            orderItem.setBook(book);
             orderItem.setAmount(cartItem.getAmount());
             orderItems.add(orderItem);
         }

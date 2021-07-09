@@ -1,12 +1,14 @@
 package xyz.linin.bookstore_backend.dao;
 
 
+import org.aspectj.weaver.ast.Or;
 import org.hibernate.criterion.Order;
 import xyz.linin.bookstore_backend.entity.Book;
 import xyz.linin.bookstore_backend.entity.OrderForm;
 import xyz.linin.bookstore_backend.entity.OrderItem;
 import xyz.linin.bookstore_backend.entity.User;
 
+import java.util.Date;
 import java.util.List;
 
 public interface OrderDao {
@@ -33,4 +35,6 @@ public interface OrderDao {
     OrderForm getOrderById(User user, Integer orderId);
 
     List<OrderForm> getOrders();
+
+    List<OrderForm> getOrdersBetween(Date time1, Date time2);
 }

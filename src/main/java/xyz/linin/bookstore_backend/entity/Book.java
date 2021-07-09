@@ -38,7 +38,4 @@ public class Book {
     @Column(nullable = false)
     private String image;
 
-    @OneToOne
-    @JsonIgnore
-    private Ledger ledger;
 }

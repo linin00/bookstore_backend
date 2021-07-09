@@ -13,6 +13,7 @@ import xyz.linin.bookstore_backend.repository.OrderFormRepository;
 import xyz.linin.bookstore_backend.repository.OrderItemRepository;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -29,6 +30,9 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public void create(User user, Book book) {
         book = bookRepository.findById(book.getId()).get();
+        if (book.getInventory() == 0) throw new BusinessLogicException("库存不足");
+        book.setInventory(book.getInventory() -1);
+        bookRepository.save(book);
         OrderForm orderForm = new OrderForm();
         orderFormRepository.save(orderForm);
 
@@ -75,7 +79,6 @@ public class OrderDaoImpl implements OrderDao {
                 ledger = new Ledger();
                 ledger.setBook(book);
                 ledgerRepository.save(ledger);
-                book.setLedger(ledger);
                 bookRepository.save(book);
                 orderItems = new ArrayList<>();
             }
@@ -156,5 +159,10 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public List<OrderForm> getOrders() {
         return orderFormRepository.findAll();
+    }
+
+    @Override
+    public List<OrderForm> getOrdersBetween(Date time1, Date time2) {
+        return orderFormRepository.findAllByTimeBetween(time1, time2);
     }
 }

@@ -14,6 +14,7 @@ import xyz.linin.bookstore_backend.service.AuthService;
 import xyz.linin.bookstore_backend.service.OrderService;
 
 import javax.transaction.Transactional;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -105,8 +106,13 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public List<OrderForm> getOrders() {
+        return orderDao.getOrders();
+    }
+
+    @Override
+    public List<OrderForm> getOrdersBetween(Date time1, Date time2) {
         User user = authService.getCurrentUser();
         if (user.getRole() != Role.admin) throw new BusinessLogicException("无权限");
-        return orderDao.getOrders();
+        return orderDao.getOrdersBetween(time1, time2);
     }
 }

@@ -12,6 +12,7 @@ import xyz.linin.bookstore_backend.entity.OrderItem;
 import xyz.linin.bookstore_backend.service.OrderService;
 
 import javax.validation.Valid;
+import java.sql.Date;
 import java.util.List;
 
 @RestController
@@ -40,6 +41,12 @@ public class OrderController {
     @GetMapping
     public DataResponse<List<OrderForm>> getOrder() {
         return new DataResponse<>(orderService.getOrder());
+    }
+
+    @PostMapping("/allByTime")
+    public DataResponse<List<OrderForm>> getOrderBetween(@Valid @RequestBody List<Long> times) {
+        if (times.size() != 2) return new DataResponse<>(orderService.getOrders());
+        else return new DataResponse<>(orderService.getOrdersBetween(new Date(times.get(0)), new Date(times.get(1))));
     }
 
     @GetMapping("/all")

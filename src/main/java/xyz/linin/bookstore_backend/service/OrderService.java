@@ -5,6 +5,7 @@ import xyz.linin.bookstore_backend.entity.Book;
 import xyz.linin.bookstore_backend.entity.OrderForm;
 import xyz.linin.bookstore_backend.entity.OrderItem;
 
+import java.util.Date;
 import java.util.List;
 
 public interface OrderService {
@@ -31,4 +32,6 @@ public interface OrderService {
     OrderForm getOrderById(Integer orderId);
 
     List<OrderForm> getOrders();
+
+    List<OrderForm> getOrdersBetween(Date time1, Date time2);
 }
