@@ -53,8 +53,9 @@ public class UserDaoImpl implements UserDao {
     }
 
     public boolean add (NewUser newUser) {
-        User user = userRepository.save(modelMapper.map(newUser, User.class));
+        User user = modelMapper.map(newUser, User.class);
         Cart cart = new Cart();
+        userRepository.save(user);
         cart.setUser(user);
         cartRepository.save(cart);
         user.setCart(cart);

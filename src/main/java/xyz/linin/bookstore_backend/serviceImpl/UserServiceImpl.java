@@ -11,6 +11,7 @@ import xyz.linin.bookstore_backend.exception.BusinessLogicException;
 import xyz.linin.bookstore_backend.service.AuthService;
 import xyz.linin.bookstore_backend.service.UserService;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 
@@ -22,10 +23,14 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private AuthService authService;
 
+
+    @Transactional
     public boolean delete(Integer user_id) {
         return userDao.delete(user_id);
     }
 
+
+    @Transactional
     public boolean edit(Integer user_id, UserDto userDto) {
         return userDao.edit(user_id, userDto);
     }
@@ -38,6 +43,8 @@ public class UserServiceImpl implements UserService {
         return userDao.all();
     }
 
+
+    @Transactional
     public void register(NewUser newUser) {
         if (userDao.existByName(newUser.getName())) {
             throw new BusinessLogicException("用户名已存在");
@@ -45,6 +52,8 @@ public class UserServiceImpl implements UserService {
         userDao.add(newUser);
     }
 
+
+    @Transactional
     public User getInfo() {
         return authService.getCurrentUser();
     }

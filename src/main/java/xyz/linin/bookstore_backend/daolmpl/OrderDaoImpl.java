@@ -87,8 +87,6 @@ public class OrderDaoImpl implements OrderDao {
             orderItems.add(orderItem);
             ledger.setOrderItems(orderItems);
             ledger.setAmount(ledger.getAmount() + orderItem.getAmount());
-            book.setInventory(book.getInventory() - orderItem.getAmount());
-            bookRepository.save(book);
             ledgerRepository.save(ledger);
         }
     }

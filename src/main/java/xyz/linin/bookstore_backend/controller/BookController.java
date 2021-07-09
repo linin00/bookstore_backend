@@ -20,11 +20,13 @@ public class BookController {
     private BookService bookService;
 
     @GetMapping
+    @Secured({"ROLE_USER", "ROLE_ADMIN"})
     public DataResponse<List<Book>> getAll() {
         return new DataResponse<>(bookService.all());
     }
 
     @GetMapping("/{bookId}")
+    @Secured({"ROLE_USER", "ROLE_ADMIN"})
     public DataResponse<Book> getById(@PathVariable Integer bookId) {
         return new DataResponse<>(bookService.find(bookId));
     }

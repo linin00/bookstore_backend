@@ -18,18 +18,20 @@ public class DatabaseSeeder {
     private CartRepository cartRepository;
     @EventListener
     public void seed(ContextRefreshedEvent event) {
-        User user1 = new User();
-        user1.setId(1);
-        user1.setName("admin");
-        user1.setAddress("上海市闵行区");
-        user1.setPhone("18206685581");
-        user1.setPassword("123");
-        user1.setRole(Role.admin);
+        User user = new User();
+        user.setId(1);
+        user.setName("admin");
+        user.setAddress("上海市闵行区");
+        user.setPhone("18206685581");
+        user.setPassword("123");
+        user.setRole(Role.admin);
         Cart cart = new Cart();
         cart.setId(1);
-        cart.setUser(user1);
-        user1.setCart(cart);
         cartRepository.save(cart);
-        userRepository.save(user1);
+        user.setCart(cart);
+        userRepository.save(user);
+        cart.setUser(user);
+        cartRepository.save(cart);
+        userRepository.save(user);
     }
 }
