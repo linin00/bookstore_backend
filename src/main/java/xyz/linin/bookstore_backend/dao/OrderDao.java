@@ -37,4 +37,6 @@ public interface OrderDao {
     List<OrderForm> getOrders();
 
     List<OrderForm> getOrdersBetween(Date time1, Date time2);
+
+    List<OrderForm> getOrdersBetweenAndUser(Date time1, Date time2, User user);
 }

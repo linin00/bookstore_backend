@@ -3,6 +3,7 @@ package xyz.linin.bookstore_backend.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import xyz.linin.bookstore_backend.dto.NewUser;
 import xyz.linin.bookstore_backend.dto.UserDto;
@@ -26,22 +27,33 @@ public class UserController {
     }
 
     @GetMapping
+    @Secured({"ROLE_ADMIN"})
     public DataResponse<List<User>> getAllUser() {
         return new DataResponse<>(userService.getAll());
     }
 
     @GetMapping("/user")
+    @Secured({"ROLE_USER", "ROLE_ADMIN"})
     public DataResponse<User> getInfo() {
         return new DataResponse<>(userService.getInfo());
     }
 
     @PutMapping("/{userId}")
+    @Secured({"ROLE_ADMIN"})
     public ResponseEntity<?> editUser(@PathVariable Integer userId, @Valid @RequestBody UserDto userDto) {
         userService.edit(userId, userDto);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
+    @PutMapping("/turn/{userId}")
+    @Secured({"ROLE_ADMIN"})
+    public ResponseEntity<?> turnUser(@PathVariable Integer userId) {
+        userService.turn(userId);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
     @DeleteMapping("/{userId}")
+    @Secured({"ROLE_ADMIN"})
     public ResponseEntity<?> delUser(@PathVariable Integer userId) {
         userService.delete(userId);
         return new ResponseEntity<>(HttpStatus.CREATED);

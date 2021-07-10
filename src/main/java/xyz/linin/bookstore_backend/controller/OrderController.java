@@ -42,18 +42,20 @@ public class OrderController {
         return new DataResponse<>(orderService.getOrderById(orderId));
     }
 
-    @GetMapping
+    @PostMapping("/userAndTime")
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
-    public DataResponse<List<OrderForm>> getOrder() {
-        return new DataResponse<>(orderService.getOrder());
+    public DataResponse<List<OrderForm>> getOrder(@Valid @RequestBody List<Long> times) {
+        if (times.size() != 2) return new DataResponse<>(orderService.getOrder());
+        else return new DataResponse<>(orderService.getOrdersBetween(new Date(times.get(0)), new Date(times.get(1))));
     }
 
     @PostMapping("/allByTime")
     @Secured("ROLE_ADMIN")
     public DataResponse<List<OrderForm>> getOrderBetween(@Valid @RequestBody List<Long> times) {
         if (times.size() != 2) return new DataResponse<>(orderService.getOrders());
-        else return new DataResponse<>(orderService.getOrdersBetween(new Date(times.get(0)), new Date(times.get(1))));
+        else return new DataResponse<>(orderService.getOrdersBetweenAndUser(new Date(times.get(0)), new Date(times.get(1))));
     }
+
 
     @GetMapping("/all")
     @Secured({"ROLE_ADMIN"})

@@ -16,4 +16,6 @@ public interface UserDao {
     boolean add(NewUser newUser);
     boolean existByName(String name);
     boolean checkPassword(String password, String name);
+
+    void turn(Integer userId);
 }

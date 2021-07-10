@@ -3,11 +3,13 @@ package xyz.linin.bookstore_backend.daolmpl;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import xyz.linin.bookstore_backend.constants.Role;
 import xyz.linin.bookstore_backend.dao.UserDao;
 import xyz.linin.bookstore_backend.dto.NewUser;
 import xyz.linin.bookstore_backend.dto.UserDto;
 import xyz.linin.bookstore_backend.entity.Cart;
 import xyz.linin.bookstore_backend.entity.User;
+import xyz.linin.bookstore_backend.exception.BusinessLogicException;
 import xyz.linin.bookstore_backend.repository.CartRepository;
 import xyz.linin.bookstore_backend.repository.UserRepository;
 
@@ -67,6 +69,15 @@ public class UserDaoImpl implements UserDao {
         if(!userRepository.existsByName(name)) return false;
         User user = userRepository.findById(userRepository.findByName(name).getId()).get();
         return user.getPassword().equals(password);
+    }
+
+    @Override
+    public void turn(Integer userId) {
+        if(!userRepository.existsById(userId)) throw new BusinessLogicException("用户不存在");
+        User user = userRepository.findById(userId).get();
+        if (user.getRole() == Role.admin) throw new BusinessLogicException("不能禁用管理员");
+        user.setRole(user.getRole() == Role.user? Role.disable : Role.user);
+        userRepository.save(user);
     }
 
     @Override

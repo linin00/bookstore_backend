@@ -1,6 +1,6 @@
 package xyz.linin.bookstore_backend.serviceImpl;
 
-import org.hibernate.criterion.Order;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import xyz.linin.bookstore_backend.constants.Role;
@@ -114,5 +114,12 @@ public class OrderServiceImpl implements OrderService {
         User user = authService.getCurrentUser();
         if (user.getRole() != Role.admin) throw new BusinessLogicException("无权限");
         return orderDao.getOrdersBetween(time1, time2);
+    }
+
+    @Override
+    public List<OrderForm> getOrdersBetweenAndUser(Date time1, Date time2) {
+        User user = authService.getCurrentUser();
+        if (user.getRole() != Role.admin) throw new BusinessLogicException("无权限");
+        return orderDao.getOrdersBetweenAndUser(time1, time2, user);
     }
 }

@@ -163,4 +163,9 @@ public class OrderDaoImpl implements OrderDao {
     public List<OrderForm> getOrdersBetween(Date time1, Date time2) {
         return orderFormRepository.findAllByTimeBetween(time1, time2);
     }
+
+    @Override
+    public List<OrderForm> getOrdersBetweenAndUser(Date time1, Date time2, User user) {
+        return orderFormRepository.findAllByTimeBetweenAndUser(time1, time2, user);
+    }
 }

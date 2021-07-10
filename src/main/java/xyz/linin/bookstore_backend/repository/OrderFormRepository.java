@@ -12,4 +12,6 @@ public interface OrderFormRepository extends CrudRepository<OrderForm, Integer> 
     @Override
     List<OrderForm> findAll();
     List<OrderForm> findAllByTimeBetween(Date time0, Date time2);
+
+    List<OrderForm> findAllByTimeBetweenAndUser(Date time1, Date time2, User user);
 }

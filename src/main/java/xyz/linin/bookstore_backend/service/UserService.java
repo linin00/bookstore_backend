@@ -18,4 +18,6 @@ public interface UserService {
     void register(NewUser newUser);
 
     User getInfo();
+
+    void turn(Integer userId);
 }

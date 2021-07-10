@@ -57,4 +57,10 @@ public class UserServiceImpl implements UserService {
     public User getInfo() {
         return authService.getCurrentUser();
     }
+
+    @Override
+    @Transactional
+    public void turn(Integer userId) {
+        userDao.turn(userId);
+    }
 }
