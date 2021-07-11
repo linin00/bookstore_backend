@@ -21,4 +21,6 @@ public interface CartItemDao {
     List<CartItem> findAllByIdIn(List<Integer> itemIds);
 
     void deleteAllByIdIn(List<Integer> itemIds);
+
+    void deleteAll(List<CartItem> cartItems);
 }

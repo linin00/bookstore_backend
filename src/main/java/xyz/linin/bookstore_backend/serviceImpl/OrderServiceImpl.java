@@ -131,7 +131,29 @@ public class OrderServiceImpl implements OrderService {
         User user = authService.getCurrentUser();
         OrderForm orderForm = orderDao.findById(orderId);
         if (user.getRole() != Role.admin && user != orderForm.getUser()) throw new BusinessLogicException("无权限");
-        orderItemDao.deleteAll(orderForm.getOrderItems());
+        List<OrderItem> orderItems = orderForm.getOrderItems();
+        if (orderForm.getState() != OrderState.COMPLETED) {
+            for (OrderItem orderItem : orderItems) {
+                Book book = orderItem.getBook();
+                book.setInventory(book.getInventory() + orderItem.getAmount());
+                bookDao.save(book);
+            }
+        }
+        for (OrderItem orderItem : orderItems) {
+            if (orderItem.getLedger() != null) {
+                Ledger ledger = orderItem.getLedger();
+                List<OrderItem> orderItems1 = ledger.getOrderItems();
+                List<OrderItem> orderItems2 = new ArrayList<>();
+                for (OrderItem orderItem1 : orderItems1) {
+                    if (orderItem1.getId() == orderItem.getId()) continue;
+                    orderItems2.add(orderItem1);
+                }
+                ledger.setOrderItems(orderItems2);
+                ledger.setAmount(ledger.getAmount() - orderItem.getAmount());
+                ledgerDao.save(ledger);
+            }
+        }
+        orderItemDao.deleteAll(orderItems);
         orderDao.delete(orderForm);
     }
 

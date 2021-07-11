@@ -5,13 +5,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import xyz.linin.bookstore_backend.constants.Role;
 import xyz.linin.bookstore_backend.dao.CartDao;
+import xyz.linin.bookstore_backend.dao.CartItemDao;
+import xyz.linin.bookstore_backend.dao.OrderDao;
 import xyz.linin.bookstore_backend.dao.UserDao;
 import xyz.linin.bookstore_backend.dto.NewUser;
 import xyz.linin.bookstore_backend.dto.UserDto;
 import xyz.linin.bookstore_backend.entity.Cart;
+import xyz.linin.bookstore_backend.entity.OrderForm;
 import xyz.linin.bookstore_backend.entity.User;
 import xyz.linin.bookstore_backend.exception.BusinessLogicException;
 import xyz.linin.bookstore_backend.service.AuthService;
+import xyz.linin.bookstore_backend.service.OrderService;
 import xyz.linin.bookstore_backend.service.UserService;
 
 import javax.transaction.Transactional;
@@ -27,12 +31,31 @@ public class UserServiceImpl implements UserService {
     private CartDao cartDao;
 
     @Autowired
+    private CartItemDao cartItemDao;
+
+    @Autowired
     private ModelMapper modelMapper;
+
+    @Autowired
+    private OrderDao orderDao;
+
+    @Autowired
+    private OrderService orderService;
 
 
     @Transactional
-    public void delete(Integer user_id) {
-        if (userDao.existsById(user_id)) userDao.deleteById(user_id);
+    public void delete(Integer userId) {
+        if (userDao.existsById(userId)) {
+            User user = userDao.findById(userId);
+            Cart cart = user.getCart();
+            cartItemDao.deleteAll(cart.getCartItems());
+            cartDao.deleteById(cart.getId());
+            List<OrderForm> orderForms = user.getOrderForm();
+            for (OrderForm orderForm : orderForms) {
+                orderService.delOrder(orderForm.getId());
+            }
+            userDao.deleteById(userId);
+        }
         else throw new BusinessLogicException("用户不存在");
     }
 

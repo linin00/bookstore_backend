@@ -50,4 +50,9 @@ public class CartItemDaoImpl implements CartItemDao {
     public void deleteAllByIdIn(List<Integer> itemIds) {
         cartItemRepository.deleteAllByIdIn(itemIds);
     }
+
+    @Override
+    public void deleteAll(List<CartItem> cartItems) {
+        cartItemRepository.deleteAll(cartItems);
+    }
 }

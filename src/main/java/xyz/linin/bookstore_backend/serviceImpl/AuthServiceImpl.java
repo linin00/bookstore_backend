@@ -31,7 +31,7 @@ public class AuthServiceImpl implements AuthService {
 
     public AuthResult login(LoginCredentials loginCredentials) {
         if (!userService.checkPassword(loginCredentials.getPassword(), loginCredentials.getName())) {
-            throw new BadCredentialsException("学工号或密码错误");
+            throw new BadCredentialsException("用户名或密码错误");
         }
         User user = userDao.findByName(loginCredentials.getName());
         if (user.getRole() == Role.disable) throw new BusinessLogicException("你已被禁用");
