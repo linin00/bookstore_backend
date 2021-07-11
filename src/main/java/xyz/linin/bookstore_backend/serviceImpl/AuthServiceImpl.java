@@ -15,6 +15,7 @@ import xyz.linin.bookstore_backend.entity.AuthUser;
 import xyz.linin.bookstore_backend.entity.User;
 import xyz.linin.bookstore_backend.exception.BusinessLogicException;
 import xyz.linin.bookstore_backend.service.AuthService;
+import xyz.linin.bookstore_backend.service.UserService;
 import xyz.linin.bookstore_backend.utils.JwtUtils;
 
 import java.util.List;
@@ -25,8 +26,11 @@ public class AuthServiceImpl implements AuthService {
     @Autowired
     private UserDao userDao;
 
+    @Autowired
+    private UserService userService;
+
     public AuthResult login(LoginCredentials loginCredentials) {
-        if (!userDao.checkPassword(loginCredentials.getPassword(), loginCredentials.getName())) {
+        if (!userService.checkPassword(loginCredentials.getPassword(), loginCredentials.getName())) {
             throw new BadCredentialsException("学工号或密码错误");
         }
         User user = userDao.findByName(loginCredentials.getName());

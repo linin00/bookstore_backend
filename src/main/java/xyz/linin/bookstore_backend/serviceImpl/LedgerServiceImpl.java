@@ -20,13 +20,13 @@ public class LedgerServiceImpl implements LedgerService {
     private LedgerDao ledgerDao;
     @Override
     public List<Ledger> getAll() {
-        return ledgerDao.getAll();
+        return ledgerDao.findAll();
     }
 
     @Override
     public Ledger getById(Integer ledgerId) {
         User user = authService.getCurrentUser();
         if (user.getRole() != Role.admin) throw new BusinessLogicException("无权限");
-        return ledgerDao.getById(ledgerId);
+        return ledgerDao.findById(ledgerId);
     }
 }

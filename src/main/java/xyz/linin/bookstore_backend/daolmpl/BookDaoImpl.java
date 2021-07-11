@@ -14,35 +14,27 @@ import java.util.List;
 public class BookDaoImpl implements BookDao {
     @Autowired
     private BookRepository bookRepository;
-    @Autowired
-    private ModelMapper modelMapper;
 
-    public Book find(Integer id) {
+    public Book findById(Integer id) {
         return bookRepository.findById(id).get();
     }
 
-    public boolean delete(Integer id) {
-        if (!bookRepository.existsById(id)) return false;
+    public void deleteById(Integer id) {
         bookRepository.deleteById(id);
-        return true;
     }
 
-    public boolean edit(Integer id, BookDto bookDto) {
-        Book book;
-        if (!bookRepository.existsById(id)) {
-            book = new Book();
-        }
-        else book = bookRepository.findById(id).get();
-        modelMapper.map(bookDto, book);
-        bookRepository.save(book);
-        return true;
-    }
-    public List<Book> all() {
+    @Override
+    public List<Book> findAll() {
         return bookRepository.findAll();
     }
-    public boolean add(BookDto bookDto) {
-        Book book = modelMapper.map(bookDto, Book.class);
-        bookRepository.save(book);
-        return true;
+
+    @Override
+    public boolean existsById(Integer id) {
+        return bookRepository.existsById(id);
+    }
+
+    @Override
+    public Book save(Book book) {
+        return bookRepository.save(book);
     }
 }

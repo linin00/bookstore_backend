@@ -1,7 +1,10 @@
 package xyz.linin.bookstore_backend.serviceImpl;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import xyz.linin.bookstore_backend.constants.Role;
+import xyz.linin.bookstore_backend.dao.CartDao;
 import xyz.linin.bookstore_backend.dao.UserDao;
 import xyz.linin.bookstore_backend.dto.NewUser;
 import xyz.linin.bookstore_backend.dto.UserDto;
@@ -21,26 +24,35 @@ public class UserServiceImpl implements UserService {
     private UserDao userDao;
 
     @Autowired
-    private AuthService authService;
+    private CartDao cartDao;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
 
     @Transactional
-    public boolean delete(Integer user_id) {
-        return userDao.delete(user_id);
+    public void delete(Integer user_id) {
+        if (userDao.existsById(user_id)) userDao.deleteById(user_id);
+        else throw new BusinessLogicException("用户不存在");
     }
 
 
     @Transactional
-    public boolean edit(Integer user_id, UserDto userDto) {
-        return userDao.edit(user_id, userDto);
+    public void edit(Integer userId, UserDto userDto) {
+        if (!userDao.existsById(userId)) throw new BusinessLogicException("用户不存在");
+        User user = userDao.findById(userId);
+        modelMapper.map(userDto, user);
+        userDao.save(user);
     }
 
-    public boolean changePassword(Integer user_id, String newPassword) {
-        return userDao.changePassword(user_id, newPassword);
+    public void changePassword(Integer userId, String newPassword) {
+        if (!userDao.existsById(userId)) throw new BusinessLogicException("用户不存在");
+        User user = userDao.findById(userId);
+        userDao.save(user);
     }
 
     public List<User> getAll() {
-        return userDao.all();
+        return userDao.findAll();
     }
 
 
@@ -49,18 +61,30 @@ public class UserServiceImpl implements UserService {
         if (userDao.existByName(newUser.getName())) {
             throw new BusinessLogicException("用户名已存在");
         }
-        userDao.add(newUser);
+        User user = modelMapper.map(newUser, User.class);
+        Cart cart = new Cart();
+        userDao.save(user);
+        cart.setUser(user);
+        cartDao.save(cart);
+        user.setCart(cart);
+        userDao.save(user);
     }
 
-
-    @Transactional
-    public User getInfo() {
-        return authService.getCurrentUser();
-    }
 
     @Override
     @Transactional
     public void turn(Integer userId) {
-        userDao.turn(userId);
+        if(!userDao.existsById(userId)) throw new BusinessLogicException("用户不存在");
+        User user = userDao.findById(userId);
+        if (user.getRole() == Role.admin) throw new BusinessLogicException("不能禁用管理员");
+        user.setRole(user.getRole() == Role.user? Role.disable : Role.user);
+        userDao.save(user);
+    }
+
+    @Override
+    public boolean checkPassword(String password, String name) {
+        if(!userDao.existsByName(name)) throw new BusinessLogicException("用户不存在");
+        User user = userDao.findByName(name);
+        return user.getPassword().equals(password);
     }
 }

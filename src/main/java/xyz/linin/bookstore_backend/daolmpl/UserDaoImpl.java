@@ -19,12 +19,8 @@ import java.util.List;
 public class UserDaoImpl implements UserDao {
     @Autowired
     private UserRepository userRepository;
-    @Autowired
-    private CartRepository cartRepository;
-    @Autowired
-    private ModelMapper modelMapper;
 
-    public User find(Integer user_id) {
+    public User findById(Integer user_id) {
         return userRepository.findById(user_id).get();
     }
 
@@ -32,52 +28,25 @@ public class UserDaoImpl implements UserDao {
         return userRepository.findByName(name);
     }
 
-    public boolean delete(Integer user_id) {
-        if (!userRepository.existsById(user_id)) return false;
+    public void deleteById(Integer user_id) {
         userRepository.deleteById(user_id);
-        return true;
     }
 
-    public boolean edit(Integer user_id, UserDto userDto) {
-        if (!userRepository.existsById(user_id)) return false;
-        User user = userRepository.findById(user_id).get();
-        modelMapper.map(userDto, user);
-        userRepository.save(user);
-        return true;
-    }
-
-    public boolean changePassword(Integer user_id, String newPassword) {
-        return true;
-    }
-
-    public List<User> all() {
-        return userRepository.findAll();
-    }
-
-    public boolean add (NewUser newUser) {
-        User user = modelMapper.map(newUser, User.class);
-        Cart cart = new Cart();
-        userRepository.save(user);
-        cart.setUser(user);
-        cartRepository.save(cart);
-        user.setCart(cart);
-        userRepository.save(user);
-        return true;
-    }
-
-    public boolean checkPassword(String password, String name) {
-        if(!userRepository.existsByName(name)) return false;
-        User user = userRepository.findById(userRepository.findByName(name).getId()).get();
-        return user.getPassword().equals(password);
+    public boolean existsById(Integer userId) {
+        return userRepository.existsById(userId);
     }
 
     @Override
-    public void turn(Integer userId) {
-        if(!userRepository.existsById(userId)) throw new BusinessLogicException("用户不存在");
-        User user = userRepository.findById(userId).get();
-        if (user.getRole() == Role.admin) throw new BusinessLogicException("不能禁用管理员");
-        user.setRole(user.getRole() == Role.user? Role.disable : Role.user);
-        userRepository.save(user);
+    public boolean existsByName(String name) {
+        return userRepository.existsByName(name);
+    }
+
+    public User save(User user) {
+        return userRepository.save(user);
+    }
+
+    public List<User> findAll() {
+        return userRepository.findAll();
     }
 
     @Override

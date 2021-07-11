@@ -1,42 +1,25 @@
 package xyz.linin.bookstore_backend.dao;
 
 
-import org.aspectj.weaver.ast.Or;
-import org.hibernate.criterion.Order;
-import xyz.linin.bookstore_backend.entity.Book;
 import xyz.linin.bookstore_backend.entity.OrderForm;
-import xyz.linin.bookstore_backend.entity.OrderItem;
 import xyz.linin.bookstore_backend.entity.User;
 
 import java.util.Date;
 import java.util.List;
 
 public interface OrderDao {
-    void create(User user, Book book);
 
-    List<OrderItem> getItems(User user, Integer orderId);
+    List<OrderForm> findAllByUser(User user);
 
-    void pay(User user, Integer orderId);
+    OrderForm save(OrderForm orderForm);
 
-    void editItem(User user, OrderItem orderItem);
+    OrderForm findById(Integer orderId);
 
-    void delOrder(User user, Integer orderId);
+    void delete(OrderForm orderForm);
 
-    void delItem(User user, Integer itemId);
+    List<OrderForm> findAll();
 
-    void handleOrder(Integer orderId);
+    List<OrderForm> findAllByTimeBetween(Date time1, Date time2);
 
-    void completeOrder(Integer orderId);
-
-    void cancel(User user, Integer orderId);
-
-    List<OrderForm> getOrder(User user);
-
-    OrderForm getOrderById(User user, Integer orderId);
-
-    List<OrderForm> getOrders();
-
-    List<OrderForm> getOrdersBetween(Date time1, Date time2);
-
-    List<OrderForm> getOrdersBetweenAndUser(Date time1, Date time2, User user);
+    List<OrderForm> findAllByTimeBetweenAndUser(Date time1, Date time2, User user);
 }

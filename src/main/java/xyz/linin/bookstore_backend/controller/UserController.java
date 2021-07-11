@@ -9,6 +9,7 @@ import xyz.linin.bookstore_backend.dto.NewUser;
 import xyz.linin.bookstore_backend.dto.UserDto;
 import xyz.linin.bookstore_backend.dto.api.DataResponse;
 import xyz.linin.bookstore_backend.entity.User;
+import xyz.linin.bookstore_backend.service.AuthService;
 import xyz.linin.bookstore_backend.service.UserService;
 
 import javax.validation.Valid;
@@ -19,6 +20,9 @@ import java.util.List;
 public class UserController {
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private AuthService authService;
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@Valid @RequestBody NewUser newUser) {
@@ -35,7 +39,7 @@ public class UserController {
     @GetMapping("/user")
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
     public DataResponse<User> getInfo() {
-        return new DataResponse<>(userService.getInfo());
+        return new DataResponse<>(authService.getCurrentUser());
     }
 
     @PutMapping("/{userId}")

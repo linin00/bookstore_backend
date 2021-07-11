@@ -1,20 +1,14 @@
 package xyz.linin.bookstore_backend.dao;
 
-import xyz.linin.bookstore_backend.entity.Book;
-import xyz.linin.bookstore_backend.entity.CartItem;
+import xyz.linin.bookstore_backend.entity.Cart;
 import xyz.linin.bookstore_backend.entity.User;
 
-import java.util.List;
 
 public interface CartDao {
 
-    List<CartItem> getByUser(User user);
+    Cart findByUser(User user);
 
-    void edit(User user, CartItem cartItem);
+    void deleteById(Integer cartId);
 
-    void del(User user, Integer itemId);
-
-    void add(User user, Book book);
-
-    void createOrder(User user, List<Integer> itemIds);
+    Cart save(Cart cart);
 }
