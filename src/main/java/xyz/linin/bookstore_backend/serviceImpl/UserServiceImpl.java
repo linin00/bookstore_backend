@@ -14,7 +14,6 @@ import xyz.linin.bookstore_backend.entity.Cart;
 import xyz.linin.bookstore_backend.entity.OrderForm;
 import xyz.linin.bookstore_backend.entity.User;
 import xyz.linin.bookstore_backend.exception.BusinessLogicException;
-import xyz.linin.bookstore_backend.service.AuthService;
 import xyz.linin.bookstore_backend.service.OrderService;
 import xyz.linin.bookstore_backend.service.UserService;
 

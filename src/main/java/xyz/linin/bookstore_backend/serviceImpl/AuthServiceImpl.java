@@ -23,6 +23,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class AuthServiceImpl implements AuthService {
+
     @Autowired
     private UserDao userDao;
 
@@ -46,7 +47,7 @@ public class AuthServiceImpl implements AuthService {
 
     public User getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String idNo = authentication.getPrincipal().toString();
-        return userDao.findByName(idNo);
+        String name = authentication.getPrincipal().toString();
+        return userDao.findByName(name);
     }
 }
