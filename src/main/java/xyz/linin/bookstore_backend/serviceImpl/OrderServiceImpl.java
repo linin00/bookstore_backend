@@ -88,8 +88,8 @@ public class OrderServiceImpl implements OrderService {
         if (orderForm.getState() == OrderState.COMPLETED) throw new BusinessLogicException("支付失败，订单已完成");
         orderForm.setState(OrderState.PAID);
         orderDao.save(orderForm);
-
-        for (OrderItem orderItem : orderForm.getOrderItems()) {
+        List<OrderItem> orderItems1 = orderForm.getOrderItems();
+        for (OrderItem orderItem : orderItems1) {
             Book book = orderItem.getBook();
             List<OrderItem> orderItems;
             Ledger ledger;
@@ -144,7 +144,7 @@ public class OrderServiceImpl implements OrderService {
             throw new BusinessLogicException("无权限");
         orderItemDao.deleteById(itemId);
         OrderForm orderForm = orderItem.getOrderForm();
-        if (orderForm.getOrderItems().size() == 0) orderDao.delete(orderForm);
+        if (orderDao.findById(orderForm.getId()).getOrderItems().size() == 1) orderDao.delete(orderForm);
     }
 
     @Override
