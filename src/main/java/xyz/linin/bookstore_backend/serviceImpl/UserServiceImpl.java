@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserService {
     public void delete(Integer userId) {
         if (userDao.existsById(userId)) {
             User user = userDao.findById(userId);
-            Cart cart = user.getCart();
+            Cart cart = cartDao.findByUser(user);
             cartItemDao.deleteAll(cart.getCartItems());
             cartDao.deleteById(cart.getId());
             List<OrderForm> orderForms = user.getOrderForm();
@@ -88,8 +88,6 @@ public class UserServiceImpl implements UserService {
         userDao.save(user);
         cart.setUser(user);
         cartDao.save(cart);
-        user.setCart(cart);
-        userDao.save(user);
     }
 
 

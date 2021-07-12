@@ -48,7 +48,7 @@ public class CartServiceImpl implements CartService {
     @Transactional
     public void addItem(Book book) {
         User user = authService.getCurrentUser();
-        Cart cart = user.getCart();
+        Cart cart = cartDao.findByUser(user);
         if (cartItemDao.existsByCartAndBook(cart, book)) {
             CartItem cartItem = cartItemDao.findByCartAndBook(cart, book);
             cartItem.setAmount(cartItem.getAmount() + 1);
@@ -66,7 +66,7 @@ public class CartServiceImpl implements CartService {
     @Transactional
     public void editItem(CartItem cartItem) {
         User user = authService.getCurrentUser();
-        cartItem.setCart(user.getCart());
+        cartItem.setCart(cartDao.findByUser(user));
         CartItem cartItem1 = cartItemDao.findById(cartItem.getId());
         Cart cart = cartItem1.getCart();
         if (cart.getUser() != user && user.getRole() != Role.admin) throw new BusinessLogicException("无权限");

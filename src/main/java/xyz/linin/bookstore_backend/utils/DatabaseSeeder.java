@@ -27,11 +27,8 @@ public class DatabaseSeeder {
         user.setRole(Role.admin);
         Cart cart = new Cart();
         cart.setId(1);
-        cartRepository.save(cart);
-        user.setCart(cart);
         userRepository.save(user);
         cart.setUser(user);
         cartRepository.save(cart);
-        userRepository.save(user);
     }
 }

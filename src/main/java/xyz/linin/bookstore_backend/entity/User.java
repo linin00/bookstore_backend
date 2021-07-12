@@ -30,10 +30,6 @@ public class User {
     @Column(nullable = false)
     private Role role = Role.user;
 
-    @OneToOne
-    @JsonIgnore
-    private Cart cart;
-
 
 
     @OneToMany(mappedBy = "user")
